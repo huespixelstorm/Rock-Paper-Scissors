@@ -1,71 +1,74 @@
-let choices = ["rock", "paper", "scissors"];
-let playerRoundsWon = 0;
-let computerRoundsWon = 0;
+//  getComputerChoice
+const choices = ["rock", "paper", "scissors"];
 
 function getComputerChoice() {
-    return choices[Math.floor(Math.random() * choices.length)];
-}
-//  Player Prompts
-alert("Rock Paper Scissors! press 'ok' to play");
-let playerName = prompt("Enter your Player name: ");
-
-function getPlayerChoice() {
-    let choice = prompt("Pick either, 'Rock', 'Paper', 'Scissors'").toLowerCase()
-
-        while (
-        choice !== "rock" &&
-        choice !== "paper" &&
-        choice !== "scissors") {
-            choice = prompt('choice is INVALID, please pick either, "Rock", "Paper", "Scissors".').toLowerCase()
-        } return choice
+    return choices[Math.floor(Math.random() * choices.length)]
 }
 
+//  PLAY ROUND  
+const roundsCount = document.querySelector("#roundsCount");
+let roundNo = 0
 
-//  Win-Loss-Draw Conditions
-function getRoundResult() {
+const playerScore = document.querySelector("#playerScore");
+let playerRoundsWon = 0
+const computerScore = document.querySelector("#computerScore");
+let computerRoundsWon = 0
 
-    let playerChoice = getPlayerChoice();
-    let computerChoice = getComputerChoice();
 
-    if (playerChoice === computerChoice)
-    return alert(`"${playerName}" and the computer chose the same move, It's a Draw.`)
+function playRound(playerChoice) {
 
-    // Win-Lose
+    const computerChoice = getComputerChoice()
+
+    let result;
+    roundNo++
+    roundsCount.textContent = `Round ${roundNo}`
+
+    if (playerChoice === computerChoice) {
+        result = "It's a Draw"
+    }
+    else
     if (playerChoice === "rock" && computerChoice === "scissors" ||
         playerChoice === "paper" && computerChoice === "rock" ||
         playerChoice === "scissors" && computerChoice === "paper") {
-    
-        playerRoundsWon++
-            
-        return alert(`${playerName} chose ${playerChoice}
-        Computer chose ${computerChoice},
-         You Won the round!
-         score: ${playerRoundsWon} - ${computerRoundsWon}`)
-
+            result = "You Win"
+            playerRoundsWon++
+            playerScore.textContent = `Player - ${playerRoundsWon}`
         } else {
-        
-        computerRoundsWon++
-            
-        alert(`${playerName} chose ${playerChoice}
-        Computer chose ${computerChoice},
-         You Lost the round...
-         score: ${playerRoundsWon} - ${computerRoundsWon}`) }
+            result = "You Lose"
+            computerRoundsWon++
+            computerScore.textContent = `Computer - ${computerRoundsWon}`
+        } return {playerChoice, computerChoice, result};
 }
 
-while (playerRoundsWon < 5 && computerRoundsWon < 5) {
-    getRoundResult();
-}
+//  getPlayerChoice
+const chooseRock = document.querySelector("#chooseRock")
+const choosePaper = document.querySelector("#choosePaper")
+const chooseScissors = document.querySelector("#chooseScissors")
 
-matchWinner();  
+chooseRock.addEventListener("click", () => {
+    const round = playRound("rock")
+    announce(round)
+})
+choosePaper.addEventListener("click", () => {
+    const round = playRound("paper")
+    announce(round)
+})
+chooseScissors.addEventListener("click", () => {
+    const round = playRound("scissors")
+    announce(round)
+})
 
-//  Match Results/determiner
-function matchWinner() {
-    if (playerRoundsWon === 5) {
-        return alert("You Won the game!")
-    } else {
-        if (computerRoundsWon === 5) {
-            return alert("You Lost the game...")
-        }
+//  announceResults
+const announceResult = document.querySelector("#announceResult")
 
-    }
+const computerResponse = document.querySelector("#computerResponse")
+const playerResponse = document.querySelector("#playerResponse")
+
+function announce(resultObj) {
+    const {playerChoice, computerChoice, result} = resultObj;
+
+    computerResponse.textContent = `Computer played ${computerChoice}`
+    playerResponse.textContent = `Player played ${playerChoice}`
+
+    announceResult.textContent = `${result}`
 }
