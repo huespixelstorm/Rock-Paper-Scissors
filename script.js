@@ -104,6 +104,8 @@ function endGame(matchResultObj) {
     roundsCount.textContent = `Round ${roundNo}`
 
         announceResult.textContent = `Match over`
+        computerResponse.textContent = `Computer is Thinking...`
+        playerResponse.textContent = `Player is selecting...`
 }
 
 //  Multiple Rounds System || unfinished
@@ -117,6 +119,13 @@ const customMatchPoint = document.querySelector("#customMatchPoint")
 
 firstTo3.addEventListener("click", () => {
     matchPoint = 3
+
+    chooseRock.disabled = false;
+    choosePaper.disabled = false;
+    chooseScissors.disabled = false;
+})
+firstTo5.addEventListener("click", () => {
+    matchPoint = 5
 
     chooseRock.disabled = false;
     choosePaper.disabled = false;
