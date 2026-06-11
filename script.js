@@ -131,3 +131,17 @@ firstTo5.addEventListener("click", () => {
     choosePaper.disabled = false;
     chooseScissors.disabled = false;
 })
+const startCustom = document.querySelector("#startCustom");
+
+startCustom.addEventListener("click", () => {
+    matchPoint = Number(customMatchPoint.value);
+
+    if (matchPoint < 1 || Number.isNaN(matchPoint)) {
+        alert("Please enter a valid number.");
+        return;
+    }
+
+    chooseRock.disabled = false;
+    choosePaper.disabled = false;
+    chooseScissors.disabled = false;
+});
